@@ -58,7 +58,6 @@
 
   </div>
 </template>
-
 <script>
 import { getList, publish, deleteNews } from '@/api/news'
 import { formatDate } from '@/utils/date.js'
