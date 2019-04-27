@@ -29,6 +29,14 @@ Vue.use(ElementUI, { locale })
 
 Vue.config.productionTip = false
 
+if (sessionStorage.getItem('store')) {
+  store.replaceState(Object.assign({}, store.state, JSON.parse(sessionStorage.getItem('store'))))
+}
+
+window.addEventListener('beforeunload', () => {
+  sessionStorage.setItem('store', JSON.stringify(store.state))
+})
+
 new Vue({
   el: '#app',
   router,

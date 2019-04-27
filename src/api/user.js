@@ -2,23 +2,24 @@ import request from '@/utils/request'
 
 export function login(data) {
   return request({
-    url: '/user/login',
+    url: '/admin/sysUser/login',
     method: 'post',
     data
   })
 }
 
-export function getInfo(token) {
+export function getInfo(userId) {
   return request({
-    url: '/user/info',
+    url: '/admin/sysUser/info',
     method: 'get',
-    params: { token }
+    params: { userId }
   })
 }
 
-export function logout() {
+export function logout(userId) {
   return request({
-    url: '/user/logout',
-    method: 'post'
+    url: '/admin/sysUser/logout',
+    method: 'get',
+    params: { userId }
   })
 }
