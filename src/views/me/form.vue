@@ -1,17 +1,16 @@
 <template>
   <div class="app-container">
     <el-form ref="form" 
-    :rules="rules"
     :model="form" 
     v-loading="listLoading"
     label-width="120px">
-      <el-form-item label="新闻标题" prop="title">
+      <el-form-item label="新闻标题">
         <el-input v-model="form.title" />
       </el-form-item>
-      <el-form-item label="描述" prop="desc">
+      <el-form-item label="描述">
         <el-input v-model="form.desc" />
       </el-form-item>
-      <el-form-item label="新闻分类" prop="type">
+      <el-form-item label="新闻分类">
         <el-select v-model="form.type" placeholder="请选择新闻分类">
           <el-option label="久零" value="久零" />
           <el-option label="产品" value="产品" />
@@ -24,15 +23,12 @@
             <div class="photo"><img :src="form.img_url" alt=""></div>
           </div>
       </el-form-item>
-      <el-form-item prop="content">
-        <div class="edit_container">
-          <editor ref="myTextEditor"
-                  :fileName="'myFile'"
-                  :canCrop="canCrop"
-                  v-model="form.content"></editor>
-        </div>
-      </el-form-item>
-
+      <div class="edit_container">
+        <editor ref="myTextEditor"
+                :fileName="'myFile'"
+                :canCrop="canCrop"
+                v-model="form.content"></editor>
+      </div>
       <el-form-item label="立即发布">
         <el-switch v-model="form.isPublished" />
       </el-form-item>
@@ -47,56 +43,19 @@
 <script>
 import { doUpload, addNews, newsDtl } from '@/api/news'
 import editor from './components/Quilleditor.vue'
-
-const defaultForm  = {
-      title: '',
-      desc: '',
-      type: '',
-      content: '',
-      isPublished: false,
-      img_url: ''
-    }
-
 export default {
   data() {
-    const validateRequire = (rule, value, callback) => {
-      if (value === '') {
-        let message = ''
-        switch (rule.field) {
-          case 'desc':
-            message = '描述'
-            break;
-          case 'title':
-            message = '标题'
-            break;
-          case 'content':
-            message = '内容'
-            break;
-          case 'type':
-            message = '分类'
-            break;                                
-          default:
-            break;
-        }
-        // this.$message({
-        //   message: message + '为必填项',
-        //   type: 'error'
-        // })
-        callback(new Error(message + '为必填项'))
-      } else {
-        callback()
-      }
-    }
     return {
-      form: Object.assign({}, defaultForm),
       listLoading: false,
       canCrop:false,
       nid: undefined,
-      rules: {
-        desc: [{ validator: validateRequire }],
-        title: [{ validator: validateRequire }],
-        content: [{ validator: validateRequire }],
-        type: [{ validator: validateRequire}]
+      form: {
+        title: '',
+        desc: '',
+        type: '',
+        content: '',
+        isPublished: false,
+        img_url: ''
       }
     }
   },
@@ -108,40 +67,34 @@ export default {
   },
   methods: {
     onSubmit() {
-
-      this.$refs.form.validate((valid) => {
-        if(valid){
-          this.listLoading = true
-          addNews(this.form).then(res => {
-            this.listLoading = false
-            if(res.success){
-              this.$message({
-                message: '保存成功!',
-                type: 'success'
-              })
-              this.$router.push({ path: '/news/list' })
-            }else{
-              this.$message({
-                message: '新闻保存失败，请稍后再试!',
-                type: 'warning'
-              })
-              this.form = {};
-              this.$router.go(0)
-            }
+      this.listLoading = true
+      addNews(this.form).then(res => {
+        this.listLoading = false
+        if(res.success){
+          this.$message({
+            message: '保存成功!',
+            type: 'success'
           })
-          .catch(err => {
-            this.listLoading = false
-            this.$message({
-              message: '新闻保存出现异常，请稍后再试!',
-              type: 'warning'
-            })
-            this.form = {};
-            this.$router.go(0)                 
-          })
+          this.$router.push({ path: '/news/list' })
         }else{
-          return 
+          this.$message({
+            message: '新闻保存失败，请稍后再试!',
+            type: 'warning'
+          })
+          this.form = {};
+          this.$router.go(0)
         }
       })
+      .catch(err => {
+        this.listLoading = false
+        this.$message({
+          message: '新闻保存出现异常，请稍后再试!',
+          type: 'warning'
+        })
+        this.form = {};
+        this.$router.go(0)                 
+      })
+
     },
     onCancel() {
       this.$router.push({ path: '/news/list' })
