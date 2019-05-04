@@ -91,6 +91,27 @@ export const constantRoutes = [
     ]
   },
 
+  {
+    path: '/cms',
+    component: Layout,
+    // redirect: '/news/list',
+    name: 'Cms',
+    meta: { title: '内容管理', icon: 'text' },
+    children: [
+      {
+        path: 'about',
+        name: 'About',
+        component: () => import('@/views/cms/about/form'),
+        meta: { title: '关于我们', icon: 'about_us' }
+      },
+      {
+        path: 'footer',
+        name: 'Footer',
+        component: () => import('@/views/cms/footer/index'),
+        meta: { title: '底部', icon: 'footer' }
+      }      
+    ]
+  },  
   
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }

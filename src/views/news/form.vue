@@ -45,7 +45,7 @@
 <script>
 import { addNews, newsDtl, updateNews } from '@/api/news'
 import { doUpload } from '@/api/common'
-import editor from './components/Quilleditor.vue'
+import editor from '@/components/Richtext/Quilleditor.vue'
 
 const defaultForm = {
   title: '',
