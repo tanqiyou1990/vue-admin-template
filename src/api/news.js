@@ -8,6 +8,14 @@ export function addNews(data) {
   })
 }
 
+export function updateNews(data) {
+  return request({
+    url: '/admin/news/updateNews',
+    method: 'post',
+    data
+  })
+}
+
 export function publish(params) {
   return request({
     url: '/admin/news/publish',
@@ -36,16 +44,5 @@ export function newsDtl(nid) {
   return request({
     url: `/admin/news/newsDtl/${nid}`,
     method: 'get'
-  })
-}
-
-export function doUpload(data) {
-  return request({
-    url: '/admin/news/upload',
-    method: 'post',
-    data,
-    contentType:false,
-    processData:false,
-    headers: { "content-type": "multipart/form-data" }
   })
 }

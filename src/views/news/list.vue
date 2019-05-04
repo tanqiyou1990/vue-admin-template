@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-row class="btnRow">
-      <el-button @click="handleAdd" type="primary">新增</el-button>
+      <el-button type="primary" @click="handleAdd">新增</el-button>
     </el-row>
     <el-table
       v-loading="listLoading"
@@ -11,7 +11,7 @@
       fit
       highlight-current-row
     >
-      <el-table-column align="center" label="序号" width="95">
+      <el-table-column align="center" label="序号" width="50">
         <template slot-scope="scope">
           {{ scope.$index + 1 }}
         </template>
@@ -23,7 +23,7 @@
       </el-table-column>
       <el-table-column label="创建时间" width="150" align="center">
         <template slot-scope="scope">
-          <i class="el-icon-time"/>
+          <i class="el-icon-time" />
           {{ scope.row.createTime | timeFormate }}
         </template>
       </el-table-column>
@@ -32,30 +32,26 @@
           <el-tag :type="scope.row.isPublished | statusFilter">{{ scope.row.isPublished | isPublishedName }}</el-tag>
         </template>
       </el-table-column>
+      <el-table-column label="阅读次数" width="100" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.readCount }}
+        </template>
+      </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button
-            size="mini"
-            @click="handleEdit(scope.row.id)">编辑</el-button>
-          <el-button
-            size="mini"
-            type="danger"
-            @click="handleDelete(scope.row.id)">删除</el-button>
-          <el-button v-if="scope.row.isPublished=='0'"
-            size="mini"
-            type="success"
-            @click="handlePublish(scope.row.id)">发布</el-button>
+          <el-button size="mini" @click="handleEdit(scope.row.id)">编辑</el-button>
+          <el-button size="mini" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
+          <el-button v-if="scope.row.isPublished=='0'" size="mini" type="success" @click="handlePublish(scope.row.id)">发布</el-button>
         </template>
-    </el-table-column>
+      </el-table-column>
     </el-table>
     <div class="page">
       <el-pagination
         background
         layout="prev, pager, next"
-        :total="total">
-      </el-pagination>
+        :total="total"
+      />
     </div>
-
   </div>
 </template>
 <script>
@@ -79,7 +75,7 @@ export default {
       return statusMap[status]
     },
     timeFormate(val) {
-      if(!val){
+      if (!val) {
         return ''
       }
       const date = new Date(val)
@@ -108,37 +104,36 @@ export default {
         this.listLoading = false
       })
     },
-    handleAdd(){
+    handleAdd() {
       this.$router.push({ path: '/news/form' })
     },
-    handleDelete(id){
+    handleDelete(id) {
       this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         this.listLoading = true
-        deleteNews({id}).then(res => {
+        deleteNews({ id }).then(res => {
           this.listLoading = false
-          if(res.success){
+          if (res.success) {
             this.$message({
               message: '删除成功!',
               type: 'success'
             })
           }
           this.fetchData(this.pageNo, this.pageSize, this.searchKey)
-        })  
-      })
-      .catch(() => {})
+        })
+      }).catch(() => {})
     },
-    handleEdit(nid){
-      this.$router.push({ path: '/news/form',query:{nid}})
+    handleEdit(nid) {
+      this.$router.push({ path: '/news/form', query: { nid }})
     },
-    handlePublish(id){
+    handlePublish(id) {
       this.listLoading = true
-      publish({id}).then(res => {
+      publish({ id }).then(res => {
         this.listLoading = false
-        if(res.success){
+        if (res.success) {
           this.$message({
             message: '保存成功!',
             type: 'success'

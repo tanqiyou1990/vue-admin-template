@@ -156,7 +156,7 @@
 <script>
     import { quillEditor } from 'vue-quill-editor'
     import CropUpload from './CropUpload.vue';
-    import { doUpload } from '@/api/news'
+    import { doUpload } from '@/api/common'
 
     export default {
         props: {

@@ -8,11 +8,18 @@ export function login(data) {
   })
 }
 
-export function getInfo(userId) {
+export function getInfo() {
   return request({
     url: '/admin/sysUser/info',
-    method: 'get',
-    params: { userId }
+    method: 'get'
+  })
+}
+
+export function updateInfo(data) {
+  return request({
+    url: '/admin/sysUser/updateInfo',
+    method: 'post',
+    data
   })
 }
 

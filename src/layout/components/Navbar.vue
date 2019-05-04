@@ -5,6 +5,7 @@
     <breadcrumb class="breadcrumb-container" />
 
     <div class="right-menu">
+      <span class="hello">你好,{{name}}</span>
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
@@ -13,17 +14,16 @@
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
           <router-link to="/">
             <el-dropdown-item>
-              Home
+              首页
             </el-dropdown-item>
           </router-link>
-          <a target="_blank" href="https://github.com/PanJiaChen/vue-admin-template/">
-            <el-dropdown-item>Github</el-dropdown-item>
-          </a>
-          <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
-            <el-dropdown-item>Docs</el-dropdown-item>
-          </a>
+          <router-link to="/me">
+            <el-dropdown-item>
+              个人资料
+            </el-dropdown-item>
+          </router-link>
           <el-dropdown-item divided>
-            <span style="display:block;" @click="logout">Log Out</span>
+            <span style="display:block;" @click="logout">注销</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -44,7 +44,8 @@ export default {
   computed: {
     ...mapGetters([
       'sidebar',
-      'avatar'
+      'avatar',
+      'name'
     ])
   },
   methods: {
@@ -88,6 +89,18 @@ export default {
     float: right;
     height: 100%;
     line-height: 50px;
+    position:relative;
+
+    .hello {
+      color: #5a5e66;
+      display: inline-block;
+      padding: 0 8px;
+      height: 100%;
+      font-size: 18px;
+      color: #5a5e66;
+      vertical-align: text-bottom;
+      font-size: 12px;
+    }
 
     &:focus {
       outline: none;
