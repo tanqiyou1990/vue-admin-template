@@ -109,7 +109,32 @@ export const constantRoutes = [
         name: 'Footer',
         component: () => import('@/views/cms/footer/index'),
         meta: { title: '底部', icon: 'footer' }
-      }      
+      },
+      {
+        path: 'homepage1',
+        name: 'Homepage1',
+        component: () => import('@/views/cms/home/module1'),
+        meta: { title: '首页模块1', icon: 'home' }
+      },
+      {
+        path: 'homepage2',
+        name: 'Homepage2',
+        component: () => import('@/views/cms/home/module2'),
+        meta: { title: '首页模块2', icon: 'home' }
+      },
+      {
+        path: 'homepage3',
+        name: 'Homepage3',
+        component: () => import('@/views/cms/home/module3'),
+        meta: { title: '首页模块3', icon: 'home' }
+      },
+      {
+        path: 'homepage4',
+        name: 'Homepage4',
+        component: () => import('@/views/cms/home/module4'),
+        meta: { title: '首页模块4', icon: 'home' }
+      } 
+
     ]
   },  
   

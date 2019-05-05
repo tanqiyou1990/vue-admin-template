@@ -65,3 +65,36 @@ export function loadFooterByRelease(releaseNum) {
     params: { releaseNum }
   })
 }
+
+///////////-Home
+
+export function newHomeRelease(data,moduleNum) {
+  return request({
+    url: `/admin/cms/home${moduleNum}/new`,
+    method: 'post',
+    data
+  })
+}
+
+export function updateHomeRelease(data,moduleNum) {
+  return request({
+    url: `/admin/cms/home${moduleNum}/update`,
+    method: 'post',
+    data
+  })
+}
+
+export function releaseHomeList(moduleNum) {
+  return request({
+    url: `/admin/cms/home${moduleNum}/releaseList`,
+    method: 'get'
+  })
+}
+
+export function loadHomeByRelease(releaseNum,moduleNum) {
+  return request({
+    url: `/admin/cms/home${moduleNum}/loadByRelease`,
+    method: 'get',
+    params: { releaseNum }
+  })
+}

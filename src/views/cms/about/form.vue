@@ -90,7 +90,7 @@ export default {
 
     loadReleaseList() {
       this.listLoading = true
-      releaseList()
+      releaseAboutList()
         .then(res => {
           this.listLoading = false
           this.releaseOptions = res.data
