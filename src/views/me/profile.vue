@@ -11,19 +11,13 @@
           </div>
       </el-form-item>
       <el-form-item label="ID">
-        <el-input v-model="form.userId" :disabled="true"/>
-      </el-form-item>
-      <el-form-item label="角色">
-        <el-input v-model="form.roles" :disabled="true"/>
-      </el-form-item>            
+        <el-input v-model="form.uid" :disabled="true"/>
+      </el-form-item>        
       <el-form-item label="姓名">
-        <el-input v-model="form.name" />
-      </el-form-item>
-      <el-form-item label="介绍">
-        <el-input v-model="form.introduction" />
+        <el-input v-model="form.username" />
       </el-form-item>
       <el-form-item label="电话">
-        <el-input v-model="form.tel" />
+        <el-input v-model="form.phone" />
       </el-form-item>
       <el-form-item label="Email">
         <el-input v-model="form.email" />
@@ -46,12 +40,12 @@ export default {
       canCrop:false,
       nid: undefined,
       form: {
+        id: '',
         avatar: '',
         email: '',
-        introduction: '',
-        name: '',
-        tel: '',
-        userId: '',
+        username: '',
+        phone: '',
+        uid: '',
         roles: ''
       }
     }
@@ -64,7 +58,7 @@ export default {
       this.listLoading = true
       updateInfo(this.form).then(res => {
         this.listLoading = false
-        if(res.success){
+        if(res.code === 20000){
           this.$message({
             message: '资料保存成功!',
             type: 'success'
@@ -97,8 +91,8 @@ export default {
       doUpload(params)
       .then(res => {
         this.listLoading = false
-        if(res.success){
-          this.form.avatar = res.data
+        if(res.code === 20000){
+          this.form.avatar = res.data.filename
         }else{
           this.$message({
             message: '头像保存失败，请稍后再试',
@@ -117,8 +111,7 @@ export default {
       this.listLoading = true
       getInfo().then(res => {
         this.listLoading = false
-        console.log(res)
-        if(res.success){
+        if(res.code === 20000){
           this.form = res.data
         }else{
         }

@@ -208,7 +208,6 @@
             /*选择上传图片切换*/
             onFileChange(e){
                 var fileInput = e.target;
-                console.log(fileInput.files);
                 if (fileInput.files.length == 0) {
                     return;
                 }

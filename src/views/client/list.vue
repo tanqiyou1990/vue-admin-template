@@ -16,9 +16,14 @@
           {{ scope.$index + 1 }}
         </template>
       </el-table-column>
-      <el-table-column label="标题">
+      <el-table-column label="终端名称">
         <template slot-scope="scope">
-          {{ scope.row.title }}
+          {{ scope.row.serverName }}
+        </template>
+      </el-table-column>
+      <el-table-column label="终端TOKEN">
+        <template slot-scope="scope">
+          {{ scope.row.token }}
         </template>
       </el-table-column>
       <el-table-column label="创建时间" width="150" align="center">
@@ -27,21 +32,9 @@
           {{ scope.row.createTime | timeFormate }}
         </template>
       </el-table-column>
-      <el-table-column class-name="status-col" label="状态" width="110" align="center">
-        <template slot-scope="scope">
-          <el-tag :type="scope.row.isPublished | statusFilter">{{ scope.row.isPublished | isPublishedName }}</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column label="阅读次数" width="100" align="center">
-        <template slot-scope="scope">
-          {{ scope.row.readCount }}
-        </template>
-      </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button size="mini" @click="handleEdit(scope.row.id)">编辑</el-button>
           <el-button size="mini" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
-          <el-button v-if="scope.row.isPublished=='0'" size="mini" type="success" @click="handlePublish(scope.row.id)">发布</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -50,33 +43,32 @@
         background
         layout="prev, pager, next"
         @current-change="handleCurrentChange"
-        :page-size="pageSize"
-        :current-page="pageNo"
+        :page-size="limit"
+        :current-page="page"
         :total="total"
       />
     </div>
+
+    <el-dialog title="新增终端" :visible.sync="dialogFormVisible">
+      <el-form ref="form" :rules="rules" :model="form">
+        <el-input v-show="false" v-model="form.id" autocomplete="off" />
+        <el-form-item label="终端名称" prop="serverName" :label-width="formLabelWidth">
+          <el-input style="width:50%" v-model="form.serverName" autocomplete="off" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="handleSubmit()">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
-import { getList, publish, deleteNews } from '@/api/news'
+import { getList, addClient, deleteClient } from '@/api/client'
 import { formatDate } from '@/utils/date.js'
 
 export default {
   filters: {
-    isPublishedName(status) {
-      const statusMap = {
-        1: '已发布',
-        0: '未发布'
-      }
-      return statusMap[status]
-    },
-    statusFilter(status) {
-      const statusMap = {
-        1: 'success',
-        0: 'gray'
-      }
-      return statusMap[status]
-    },
     timeFormate(val) {
       if (!val) {
         return ''
@@ -87,32 +79,61 @@ export default {
   },
   data() {
     return {
-      pageNo: 1,
-      pageSize: 10,
+      page: 1,
+      limit: 10,
       total: 0,
-      searchKey: null,
       list: null,
-      listLoading: true
+      listLoading: true,
+      dialogFormVisible: false,
+      form: {
+        serverName: ''
+      },
+      formLabelWidth: '120px',
+      rules: {
+        serverName: [
+          { required: true, message: '请输入终端名称', trigger: 'blur' }
+        ]
+      }
     }
   },
   created() {
-    this.fetchData(this.pageNo, this.pageSize, this.searchKey)
+    this.fetchData(this.page, this.limit)
   },
   methods: {
     handleCurrentChange(val){
-      this.pageNo = val
-      this.fetchData(this.pageNo, this.pageSize, this.searchKey)
+      this.page = val
+      this.fetchData(this.page, this.limit)
     },
-    fetchData(pageNo, pageSize, searchKey) {
+    fetchData(page, limit) {
       this.listLoading = true
-      getList({ pageNo, pageSize, searchKey }).then(response => {
+      getList({ page, limit }).then(response => {
         this.list = response.data.records
         this.total = response.data.total
         this.listLoading = false
       })
     },
     handleAdd() {
-      this.$router.push({ path: '/news/form' })
+      this.dialogFormVisible = true
+    },
+    handleSubmit(){
+      this.$refs['form'].validate((valid) => {
+        if(valid){
+          addClient(this.form)
+          .then(res => {
+            if(res.code === 20000){
+              this.form = {}
+              this.dialogFormVisible = false
+              this.$message.success("终端创建成功!")
+            }else{
+              this.$message({
+                message: '保存失败，请稍后再试!',
+                type: 'warning'
+              })
+            }
+            this.fetchData()
+          })
+        }
+      })
     },
     handleDelete(id) {
       this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
@@ -121,7 +142,7 @@ export default {
         type: 'warning'
       }).then(() => {
         this.listLoading = true
-        deleteNews({ id }).then(res => {
+        deleteClient(id).then(res => {
           this.listLoading = false
           if (res.success) {
             this.$message({
@@ -129,25 +150,9 @@ export default {
               type: 'success'
             })
           }
-          this.fetchData(this.pageNo, this.pageSize, this.searchKey)
+          this.fetchData(this.page, this.limit)
         })
       }).catch(() => {})
-    },
-    handleEdit(nid) {
-      this.$router.push({ path: '/news/form', query: { nid }})
-    },
-    handlePublish(id) {
-      this.listLoading = true
-      publish({ id }).then(res => {
-        this.listLoading = false
-        if (res.success) {
-          this.$message({
-            message: '保存成功!',
-            type: 'success'
-          })
-        }
-        this.fetchData(this.pageNo, this.pageSize, this.searchKey)
-      })
     }
   }
 }

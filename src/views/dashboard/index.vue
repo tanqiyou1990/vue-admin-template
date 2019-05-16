@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-editor-container">
 
-    <panel-group style="margin-left:10px;margin-right:10px;" />
+    <!-- <panel-group style="margin-left:10px;margin-right:10px;" /> -->
 
     <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
       <line-chart :chart-data="lineChartData" />

@@ -67,7 +67,7 @@ export default {
     return {
       loginForm: {
         userId: 'admin',
-        userPwd: '123456'
+        userPwd: '111111'
       },
       loginRules: {
         userId: [{ required: true, trigger: 'blur' }],

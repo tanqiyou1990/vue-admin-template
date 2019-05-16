@@ -67,77 +67,63 @@ export const constantRoutes = [
       hidden: true
     }]
   },
-
   {
-    path: '/news',
+    path: '/content',
     component: Layout,
-    redirect: '/news/list',
-    name: 'News',
-    meta: { title: '新闻管理', icon: 'news_ico' },
+    redirect: '/content/list',
+    name: 'Content',
+    meta: { title: '内容管理', icon: 'news_ico' },
     children: [
       {
         path: 'list',
         name: 'List',
-        component: () => import('@/views/news/list'),
-        meta: { title: '新闻列表', icon: 'list_ico' }
+        component: () => import('@/views/content'),
+        meta: { title: '内容列表', icon: 'list_ico' }
       },
       {
-        path: 'form',
-        name: 'Form',
-        component: () => import('@/views/news/form'),
-        meta: { title: '新闻编辑', icon: 'form' },
+        path: 'editor',
+        name: 'Editor',
+        component: () => import('@/views/content/editor'),
+        meta: { title: '内容编辑', icon: 'form' },
         hidden: true
       }
     ]
   },
 
-  // {
-  //   path: '/cms',
-  //   component: Layout,
-  //   // redirect: '/news/list',
-  //   name: 'Cms',
-  //   meta: { title: '内容管理', icon: 'text' },
-  //   children: [
-  //     {
-  //       path: 'about',
-  //       name: 'About',
-  //       component: () => import('@/views/cms/about/form'),
-  //       meta: { title: '关于我们', icon: 'about_us' }
-  //     },
-  //     {
-  //       path: 'footer',
-  //       name: 'Footer',
-  //       component: () => import('@/views/cms/footer/index'),
-  //       meta: { title: '底部', icon: 'footer' }
-  //     },
-  //     {
-  //       path: 'homepage1',
-  //       name: 'Homepage1',
-  //       component: () => import('@/views/cms/home/module1'),
-  //       meta: { title: '首页模块1', icon: 'home' }
-  //     },
-  //     {
-  //       path: 'homepage2',
-  //       name: 'Homepage2',
-  //       component: () => import('@/views/cms/home/module2'),
-  //       meta: { title: '首页模块2', icon: 'home' }
-  //     },
-  //     {
-  //       path: 'homepage3',
-  //       name: 'Homepage3',
-  //       component: () => import('@/views/cms/home/module3'),
-  //       meta: { title: '首页模块3', icon: 'home' }
-  //     },
-  //     {
-  //       path: 'homepage4',
-  //       name: 'Homepage4',
-  //       component: () => import('@/views/cms/home/module4'),
-  //       meta: { title: '首页模块4', icon: 'home' }
-  //     } 
+  {
+    path: '/base',
+    component: Layout,
+    redirect: '/base/theme',
+    name: 'Base',
+    meta: { title: '内容分类', icon: 'news_ico' },
+    children: [{
+      path: 'theme',
+      name: 'Theme',
+      component: () => import('@/views/base/theme'),
+      meta: { title: '主题列表', icon: 'catogory' }
+    },
+    {
+      path: 'category',
+      name: 'Category',
+      component: () => import('@/views/base/category'),
+      meta: { title: '板块列表', icon: 'catogory' }
+    }
+    ]
+  },
+  {
+    path: '/client',
+    component: Layout,
+    redirect: '/client/list',
+    name: 'Client',
+    meta: { title: '访问控制', icon: 'set' },
+    children: [{
+      path: 'list',
+      name: 'List',
+      component: () => import('@/views/client/list'),
+      meta: { title: '终端控制', icon: 'list_ico' },
+    }]
+  },
 
-  //   ]
-  // },  
-  
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

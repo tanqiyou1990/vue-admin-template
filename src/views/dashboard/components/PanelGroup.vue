@@ -84,7 +84,6 @@ export default {
   methods: {
     initSumCount(){
       sumCount().then(res => {
-        console.log(res)
         this.countInfo = res.data
       })
     }

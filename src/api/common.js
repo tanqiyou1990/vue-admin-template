@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function doUpload(data) {
     return request({
-      url: '/admin/news/upload',
+      url: '/common/upload',
       method: 'post',
       data,
       contentType:false,

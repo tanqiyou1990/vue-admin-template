@@ -5,7 +5,7 @@
     <breadcrumb class="breadcrumb-container" />
 
     <div class="right-menu">
-      <span class="hello">你好,{{name}}</span>
+      <span class="hello">你好,{{username}}</span>
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
@@ -45,7 +45,7 @@ export default {
     ...mapGetters([
       'sidebar',
       'avatar',
-      'name'
+      'username'
     ])
   },
   methods: {
