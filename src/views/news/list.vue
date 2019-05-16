@@ -49,6 +49,9 @@
       <el-pagination
         background
         layout="prev, pager, next"
+        @current-change="handleCurrentChange"
+        :page-size="pageSize"
+        :current-page="pageNo"
         :total="total"
       />
     </div>
@@ -85,7 +88,7 @@ export default {
   data() {
     return {
       pageNo: 1,
-      pageSize: 5,
+      pageSize: 10,
       total: 0,
       searchKey: null,
       list: null,
@@ -96,6 +99,10 @@ export default {
     this.fetchData(this.pageNo, this.pageSize, this.searchKey)
   },
   methods: {
+    handleCurrentChange(val){
+      this.pageNo = val
+      this.fetchData(this.pageNo, this.pageSize, this.searchKey)
+    },
     fetchData(pageNo, pageSize, searchKey) {
       this.listLoading = true
       getList({ pageNo, pageSize, searchKey }).then(response => {

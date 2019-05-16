@@ -91,52 +91,52 @@ export const constantRoutes = [
     ]
   },
 
-  {
-    path: '/cms',
-    component: Layout,
-    // redirect: '/news/list',
-    name: 'Cms',
-    meta: { title: '内容管理', icon: 'text' },
-    children: [
-      {
-        path: 'about',
-        name: 'About',
-        component: () => import('@/views/cms/about/form'),
-        meta: { title: '关于我们', icon: 'about_us' }
-      },
-      {
-        path: 'footer',
-        name: 'Footer',
-        component: () => import('@/views/cms/footer/index'),
-        meta: { title: '底部', icon: 'footer' }
-      },
-      {
-        path: 'homepage1',
-        name: 'Homepage1',
-        component: () => import('@/views/cms/home/module1'),
-        meta: { title: '首页模块1', icon: 'home' }
-      },
-      {
-        path: 'homepage2',
-        name: 'Homepage2',
-        component: () => import('@/views/cms/home/module2'),
-        meta: { title: '首页模块2', icon: 'home' }
-      },
-      {
-        path: 'homepage3',
-        name: 'Homepage3',
-        component: () => import('@/views/cms/home/module3'),
-        meta: { title: '首页模块3', icon: 'home' }
-      },
-      {
-        path: 'homepage4',
-        name: 'Homepage4',
-        component: () => import('@/views/cms/home/module4'),
-        meta: { title: '首页模块4', icon: 'home' }
-      } 
+  // {
+  //   path: '/cms',
+  //   component: Layout,
+  //   // redirect: '/news/list',
+  //   name: 'Cms',
+  //   meta: { title: '内容管理', icon: 'text' },
+  //   children: [
+  //     {
+  //       path: 'about',
+  //       name: 'About',
+  //       component: () => import('@/views/cms/about/form'),
+  //       meta: { title: '关于我们', icon: 'about_us' }
+  //     },
+  //     {
+  //       path: 'footer',
+  //       name: 'Footer',
+  //       component: () => import('@/views/cms/footer/index'),
+  //       meta: { title: '底部', icon: 'footer' }
+  //     },
+  //     {
+  //       path: 'homepage1',
+  //       name: 'Homepage1',
+  //       component: () => import('@/views/cms/home/module1'),
+  //       meta: { title: '首页模块1', icon: 'home' }
+  //     },
+  //     {
+  //       path: 'homepage2',
+  //       name: 'Homepage2',
+  //       component: () => import('@/views/cms/home/module2'),
+  //       meta: { title: '首页模块2', icon: 'home' }
+  //     },
+  //     {
+  //       path: 'homepage3',
+  //       name: 'Homepage3',
+  //       component: () => import('@/views/cms/home/module3'),
+  //       meta: { title: '首页模块3', icon: 'home' }
+  //     },
+  //     {
+  //       path: 'homepage4',
+  //       name: 'Homepage4',
+  //       component: () => import('@/views/cms/home/module4'),
+  //       meta: { title: '首页模块4', icon: 'home' }
+  //     } 
 
-    ]
-  },  
+  //   ]
+  // },  
   
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
