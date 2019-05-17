@@ -97,25 +97,31 @@
       <el-table-column label="操作" width="300" align="center">
         <template slot-scope="scope">
           <el-button
+            type="text"
             v-if="scope.row.publishFlag === '0'"
             size="mini"
-            type="success"
             @click="handlePublish(scope.$index, scope.row)"
           >发布</el-button>
           <el-button
             size="mini"
-            type="primary"
+            type="text"
             @click="handleRead(scope.$index, scope.row)"
           >查看</el-button>
           <el-button
             size="mini"
             @click="handleEdit(scope.$index, scope.row)"
+            type="text"
           >编辑</el-button>
           <el-button
             size="mini"
-            type="danger"
+            type="text"
             @click="handleDelete(scope.$index, scope.row)"
           >删除</el-button>
+          <el-button
+            size="mini"
+            type="text"
+            @click="loadComments(scope.row.id)"
+          >查看评论</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -131,11 +137,23 @@
       />
     </div>
 
+    <el-dialog title="内容评论" :visible.sync="commentDialog.dialogFormVisible">
+      <el-collapse v-loading="commentDialog.commentLoading">
+        <el-collapse-item :title="item.name+' 评论:'+item.comment" :name="index" v-for="(item,index) in commentDialog.commentList" :key="index">
+          <div v-for="(ritem,rindex) in item.replyList" :key="rindex">{{ritem.name}} 回复:{{ritem.comment}}</div>
+        </el-collapse-item>
+      </el-collapse>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="commentDialog.dialogFormVisible = false">返回</el-button>
+      </div>
+    </el-dialog>
+
   </div>
 </template>
 
 <script>
 import { getList, deleteContent, publishContent } from '@/api/content'
+import { getComments } from '@/api/comment'
 import { getThemeCategory } from '@/api/theme'
 import { getCategoryOptions } from '@/api/category'
 
@@ -173,6 +191,14 @@ export default {
       themeOptions: [],
       selectedThemeCatgoryOptions: null,
       formLabelWidth: '120px',
+      commentDialog: {
+        pageSize:100,
+        pageNum:1,
+        total:0,
+        dialogFormVisible: false,
+        commentLoading: false,
+        commentList: []
+      }
     }
   },
   created() {
@@ -193,6 +219,23 @@ export default {
         this.searchObj.categoryId = val[1]
       }
     },
+    /**
+     * 加载评论信息
+     */
+    loadComments(cid){
+      this.commentDialog.dialogFormVisible = true
+      this.commentDialog.commentLoading = true
+      getComments({cid,pageSize:this.commentDialog.pageSize,pageNum:this.commentDialog.pageNum})
+      .then(res => {
+        console.log(res)
+        this.commentDialog.commentLoading = false
+        this.commentDialog.commentList = res.data.records
+        this.commentDialog.total = res.data.total
+      })
+    },
+    /**
+     * 加载主题板块联级
+     */
     loadTheme(){
       getThemeCategory().then(response => {
         this.themeOptions = [{
