@@ -29,6 +29,8 @@
           <el-upload
             class="avatar-uploader"
             :action="serverUrl"
+            :with-credentials='true'
+            :name="'myFile'"
             :show-file-list="false"
             accept="image/*"
             :on-success="handleUploadSuccess"
@@ -101,7 +103,7 @@ export default {
           { required: true, message: '请输入内容', trigger: 'blur' }
         ]
       },
-      serverUrl: `${process.env.VUE_APP_BASE_API}/user/upload`,  // 这里写你要上传的图片服务器地址
+      serverUrl: `${process.env.VUE_APP_BASE_API}/common/upload`,  // 这里写你要上传的图片服务器地址
     }
   },
   created() {
@@ -188,10 +190,13 @@ export default {
       this.loadTheme().then(res => {
         if (id){
           this.loadDtl(id)
+        }else{
+          this.listLoading = false
         }
       })
       if (readFlag !== undefined && readFlag === 'read') {
         this.read = true
+        this.listLoading = false
       }
     },
     /**

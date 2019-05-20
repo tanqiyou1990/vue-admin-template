@@ -88,6 +88,8 @@
         <el-form-item label="主题图片" prop="imgUrl" :label-width="formLabelWidth">
           <el-upload
             class="avatar-uploader"
+            :with-credentials='true'
+            :name="'myFile'"
             :action="serverUrl"
             :show-file-list="false"
             accept='image/*'
@@ -129,7 +131,7 @@ export default {
         imgUrl: ''
       },
       formLabelWidth: '120px',
-      serverUrl: `${process.env.VUE_APP_BASE_API}/user/upload`,
+      serverUrl: `${process.env.VUE_APP_BASE_API}/common/upload`,
       rules: {
         name: [
           { required: true, message: '请输入主题名称', trigger: 'blur' }

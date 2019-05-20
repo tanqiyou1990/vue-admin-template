@@ -43,6 +43,8 @@
         <el-form-item label="板块图片" prop="imgUrl" :label-width="formLabelWidth">
           <el-upload
             class="avatar-uploader"
+            :with-credentials='true'
+            :name="'myFile'"
             :action="serverUrl"
             :show-file-list="false"
             accept='image/*'
@@ -160,7 +162,7 @@ export default {
         imgUrl: ''
       },
       formLabelWidth: '120px',
-      serverUrl: `${process.env.VUE_APP_BASE_API}/user/upload`,
+      serverUrl: `${process.env.VUE_APP_BASE_API}/common/upload`,
       rules: {
         tid: [
           { required: true, message: '请选择主题名称', trigger: 'change' }
@@ -190,7 +192,9 @@ export default {
 
       if (!isLt2M) {
         this.$message.error('上传头像图片大小不能超过 2MB!')
+        return
       }
+
       return isLt2M
     },
     showDialog(form, data) {
