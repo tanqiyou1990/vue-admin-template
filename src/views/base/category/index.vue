@@ -2,26 +2,17 @@
   <div class="app-container">
     <el-row style="margin-bottom: 15px;">
       <el-button type="primary" @click="showDialog(form, null)">新增</el-button>
-        <!-- <el-select
-          v-model="themeId"
-          filterable
-          remote
-          placeholder="请输入主题名称关键词"
-          :remote-method="remoteMethod"
-          :loading="loading"
-          @change="searchList">
-          <el-option label="显示所有主题" value=-1></el-option>
+
+
+        <el-select v-model="themeId" placeholder="请选择主题">
           <el-option
-            v-for="item in themeOptions"
+            v-for="item in options"
             :key="item.id"
             :label="item.name"
             :value="item.id">
           </el-option>
-        </el-select> -->
-
-        <el-input style="width:300px" placeholder="请输入主题关键字" v-model="keywordCategoryName" class="input-with-select">
-          <el-button slot="append" icon="el-icon-search" @click="searchList"></el-button>
-        </el-input>
+        </el-select>
+        <el-button type="primary" @click="searchList" plain>搜索</el-button>
     </el-row>
 
 
@@ -149,7 +140,6 @@ export default {
       list: [],
       listLoading: true,
       dialogFormVisible: false,
-      keywordCategoryName: '',
       loading: false,
       themeId: '',
       themeOptions: [],
@@ -181,6 +171,9 @@ export default {
   },
   created() {
     this.fetchData()
+    getThemeOptions().then(response => {
+      this.options = response.data
+    })
   },
   methods: {
     handleUploadSuccess(res, file) {
@@ -197,9 +190,12 @@ export default {
 
       return isLt2M
     },
+
     showDialog(form, data) {
       getThemeOptions().then(response => {
+        
         this.options = response.data
+        console.log(this.options)
       })
       if (data === null || data === '') {
         form.id = ''
@@ -279,7 +275,7 @@ export default {
     },
     searchList(){
       this.listLoading = true
-      getList({'name': this.keywordCategoryName, 'themeId': this.themeId}).then(response => {
+      getList({'themeId': this.themeId}).then(response => {
         this.list = response.data.records
         this.listLoading = false
       })

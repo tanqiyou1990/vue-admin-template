@@ -225,7 +225,7 @@ export default {
     loadComments(cid){
       this.commentDialog.dialogFormVisible = true
       this.commentDialog.commentLoading = true
-      getComments({cid,pageSize:this.commentDialog.pageSize,pageNum:this.commentDialog.pageNum})
+      getComments({cid,limit:this.commentDialog.pageSize,page:this.commentDialog.pageNum})
       .then(res => {
         console.log(res)
         this.commentDialog.commentLoading = false
@@ -239,7 +239,7 @@ export default {
     loadTheme(){
       getThemeCategory().then(response => {
         this.themeOptions = [{
-          value: '',
+          value: null,
           label: "显示所有"
         }]
         this.themeOptions = this.themeOptions.concat(response.data)

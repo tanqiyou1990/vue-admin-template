@@ -3,8 +3,8 @@ import request from '@/utils/request'
 
 export function getComments( data ) {
   return request({
-    url: '/comment/getByCid',
-    method: 'post',
+    url: '/comment/page',
+    method: 'get',
     data
   })
 }
