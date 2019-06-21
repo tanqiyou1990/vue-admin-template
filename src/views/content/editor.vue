@@ -44,7 +44,7 @@
 
       <el-form-item prop="content" label="文章内容">
         <div class="edit_container">
-          <editor ref="myTextEditor" :fileName="'file'" v-model="form.content" :canCrop="canCrop" />
+          <editor ref="myTextEditor" :fileName="'myFile'" v-model="form.content" :canCrop="canCrop" />
         </div>
       </el-form-item>
 

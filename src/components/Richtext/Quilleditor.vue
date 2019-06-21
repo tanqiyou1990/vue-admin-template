@@ -219,8 +219,8 @@
               data.append(this.fileName, fileInput.files[0]);
               this.editor.focus();
               doUpload(data).then(res => {
-                  if(res.success){
-                    this.editor.insertEmbed(this.editor.getSelection().index,'image',res.data)
+                  if(res.code==20000){
+                    this.editor.insertEmbed(this.editor.getSelection().index,'image',res.data.filename)
                   }
               })
             },
